@@ -1,0 +1,33 @@
+---
+title: "introduction to my linear regression model"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction to my linear regression model}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+Welcome to the `MyLinearReg` package! This package provides a simple implementation of a linear regression model through the `linear_regression()` function. This vignette demonstrates how to use this function, compares it to R's built-in `lm()` function, and benchmarks its performance.
+
+The `linear_regression()` function estimates the linear relationship between a predictor and a response variable, providing an easy way to understand the relationship between two sets of numeric data.
+
+# Example Usage
+
+To begin, let’s see how to use the `linear_regression()` function to fit a linear regression model to some generated data.
+
+
+# Load the MyLinearReg package
+library(MyLinearReg)
+
+# Generate some sample data
+set.seed(123) # Setting seed for reproducibility
+x <- 1:10
+y <- 2 * x + rnorm(10, mean = 0, sd = 1)
+
+# Fit the linear regression model
+model <- linear_regression(x, y)
+
+# Display the estimated intercept and slope
+print(model)
