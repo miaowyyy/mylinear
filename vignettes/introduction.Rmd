@@ -1,5 +1,5 @@
 ---
-title: "introduction to my linear regression model"
+title: "linear_regression() of mylinear package"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{introduction to my linear regression model}
@@ -7,19 +7,24 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Introduction
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-Welcome to the `MyLinearReg` package! This package provides a simple implementation of a linear regression model through the `linear_regression()` function. This vignette demonstrates how to use this function, compares it to R's built-in `lm()` function, and benchmarks its performance.
+
+
+## Introduction
+
+Welcome to the `mylinear` package! This package provides a simple implementation of a linear regression model through the `linear_regression()` function. This vignette demonstrates how to use this function, compares it to R's built-in `lm()` function, and benchmarks its performance.
 
 The `linear_regression()` function estimates the linear relationship between a predictor and a response variable, providing an easy way to understand the relationship between two sets of numeric data.
 
-# Example Usage
+## Example Usage
 
 To begin, let’s see how to use the `linear_regression()` function to fit a linear regression model to some generated data.
-
-
+```{r}
 # Load the MyLinearReg package
-library(MyLinearReg)
+library(mylinear)
 
 # Generate some sample data
 set.seed(123) # Setting seed for reproducibility
@@ -31,3 +36,63 @@ model <- linear_regression(x, y)
 
 # Display the estimated intercept and slope
 print(model)
+```
+
+## Comparison with R's Built-in lm() Function
+
+To verify the correctness of the linear_regression() function, we will compare its results with R's built-in lm() function, which is widely used for fitting linear models.
+
+```{r}
+lm_model <- lm(y ~ x)
+lm_coefficients <- coef(lm_model) 
+```
+
+
+```{r}
+# Standardize comparisons
+intercept_equal <- all.equal(as.numeric(model$intercept), as.numeric(lm_coefficients[1]))
+slope_equal <- all.equal(as.numeric(model$slope), as.numeric(lm_coefficients[2]))
+
+# Print results
+cat("Intercept comparison:", intercept_equal, "\n")
+cat("Slope comparison:", slope_equal, "\n")
+```
+
+
+## Benchmarking Performance
+Next, let's compare the performance of linear_regression() with lm() to assess efficiency. We will use the bench package for this purpose.
+
+```{r}
+library(bench)
+
+# Benchmarking without enforcing result equality
+bench::mark(
+  mylinear = {
+    # Run the custom linear regression but do not return the result
+    linear_regression(x, y)
+    NULL # Return a placeholder value
+  },
+  lm = {
+    # Run lm() but do not return the result
+    lm(y ~ x)
+    NULL # Return a placeholder value
+  }
+)
+
+```
+
+
+**Speed**:
+My customesed linear_regression(x, y) implementation is significantly faster than lm(y ~ x). `linear_regression()` has a median execution time of 4.26 µs, while `lm()` takes 138.87 µs. `linear_regression()` can run approximately 32 times more iterations per second than `lm()`.
+
+**Memory Usage**:
+`linear_regression()` does not allocate any additional memory, making it much more memory-efficient compared to `lm()`, which allocates 416 bytes per execution.
+
+**Garbage Collection**:
+`lm()` triggers garbage collection more frequently, likely due to the memory allocations it performs. This adds overhead to its execution.
+
+
+
+## Conclusion
+
+In this vignette, I demonstrated how to use the `linear_regression()` function from the mylinear package to fit a simple linear model. The results were compared to R's built-in `lm()` function using all.equal() to verify correctness. Additionally, performance was benchmarked using bench::mark() to highlight the efficiency of the custom implementation. These comparisons confirm that the `linear_regression()` function is both accurate and highly efficient, making it a suitable alternative for scenarios where performance is critical.

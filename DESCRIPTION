@@ -1,12 +1,11 @@
 Package: mylinear
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Simple Linear Regression Model Package
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Yilin Yan
+Maintainer: yilinyan@umich.edu
+Description: This package provides a simple implementation of a linear regression model. It includes a function to estimate the slope and intercept of a linear model given a set of predictor and response values. It is designed as an educational tool to help users understand the basics of linear regression modeling in R.
+License: MIT
 Encoding: UTF-8
 LazyData: true
 Suggests: 
