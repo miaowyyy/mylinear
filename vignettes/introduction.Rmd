@@ -1,5 +1,5 @@
 ---
-title: "linear_regression() of mylinear package"
+title: "introduction to my linear regression model"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{introduction to my linear regression model}
@@ -13,13 +13,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-## Introduction
+# Introduction
 
 Welcome to the `mylinear` package! This package provides a simple implementation of a linear regression model through the `linear_regression()` function. This vignette demonstrates how to use this function, compares it to R's built-in `lm()` function, and benchmarks its performance.
 
 The `linear_regression()` function estimates the linear relationship between a predictor and a response variable, providing an easy way to understand the relationship between two sets of numeric data.
 
-## Example Usage
+# Example Usage
 
 To begin, let’s see how to use the `linear_regression()` function to fit a linear regression model to some generated data.
 ```{r}
@@ -28,7 +28,7 @@ library(mylinear)
 
 # Generate some sample data
 set.seed(123) # Setting seed for reproducibility
-x <- 1:10
+x <- 1:50
 y <- 2 * x + rnorm(10, mean = 0, sd = 1)
 
 # Fit the linear regression model
@@ -38,7 +38,7 @@ model <- linear_regression(x, y)
 print(model)
 ```
 
-## Comparison with R's Built-in lm() Function
+# Comparison with R's Built-in lm() Function
 
 To verify the correctness of the linear_regression() function, we will compare its results with R's built-in lm() function, which is widely used for fitting linear models.
 
@@ -58,8 +58,39 @@ cat("Intercept comparison:", intercept_equal, "\n")
 cat("Slope comparison:", slope_equal, "\n")
 ```
 
+# Visualization
+```{r fig.width=7, fig.height=5}
+# Generate predictions for both models
+y_pred_mylinear <- model$intercept + model$slope * x  # Predictions from mylinear
+y_pred_lm <- predict(lm_model, newdata = data.frame(x = x))  # Predictions from lm()
 
-## Benchmarking Performance
+# Plot with true data and predictions
+plot(
+  x, y, 
+  main = "Linear Regression with Predictions",
+  xlab = "Predictor (x)", 
+  ylab = "Response (y)", 
+  pch = 16, col = "gray", cex = 0.8, # Weaken true data: lighter color and smaller size
+  ylim = range(c(y, y_pred_mylinear, y_pred_lm))
+)
+lines(x, y_pred_mylinear, col = "blue", lwd = 2) # Prediction line from mylinear
+lines(x, y_pred_lm, col = "red", lwd = 2, lty = 2) # Prediction line from lm()
+legend(
+  "topleft", 
+  legend = c("True Data", "linear_regression() Prediction", "lm() Prediction"), 
+  col = c("gray", "blue", "red"), 
+  pch = c(16, NA, NA), 
+  lty = c(NA, 1, 2), 
+  lwd = c(NA, 2, 2)
+)
+
+
+```
+The plot successfully demonstrates that linear_regression() function performs as expected and gives results consistent with R's built in lm() function.
+
+
+
+# Benchmarking Performance
 Next, let's compare the performance of linear_regression() with lm() to assess efficiency. We will use the bench package for this purpose.
 
 ```{r}
@@ -83,16 +114,16 @@ bench::mark(
 
 
 **Speed**:
-My customesed linear_regression(x, y) implementation is significantly faster than lm(y ~ x). `linear_regression()` has a median execution time of 4.26 µs, while `lm()` takes 138.87 µs. `linear_regression()` can run approximately 32 times more iterations per second than `lm()`.
+My customesed linear_regression(x, y) implementation is significantly faster than lm(y ~ x). `linear_regression()` has a median execution time of 4.8 µs, while `lm()` takes 145.8 µs. `linear_regression()` can run approximately 30 times more iterations per second than `lm()`.
 
 **Memory Usage**:
-`linear_regression()` does not allocate any additional memory, making it much more memory-efficient compared to `lm()`, which allocates 416 bytes per execution.
+`linear_regression()` allocates 1.31KB in memory, making it much more memory-efficient compared to `lm()`, which allocates 10.02KB.
 
 **Garbage Collection**:
-`lm()` triggers garbage collection more frequently, likely due to the memory allocations it performs. This adds overhead to its execution.
+This lower memory usage results in fewer garbage collection triggers, with `linear_regression()` requiring only one garbage collection per 9999 iterations, while `lm()` requires eleven per 3085 iterations.    
 
 
 
-## Conclusion
+# Conclusion
 
 In this vignette, I demonstrated how to use the `linear_regression()` function from the mylinear package to fit a simple linear model. The results were compared to R's built-in `lm()` function using all.equal() to verify correctness. Additionally, performance was benchmarked using bench::mark() to highlight the efficiency of the custom implementation. These comparisons confirm that the `linear_regression()` function is both accurate and highly efficient, making it a suitable alternative for scenarios where performance is critical.
