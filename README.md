@@ -37,3 +37,17 @@ For a detailed guide, examples, and explanation of the package, view the vignett
 ```r
 browseVignettes("mylinear")
 ```
+
+
+## **Unit Testing**
+
+The `mylinear` package includes unit tests implemented via the `testthat` framework to ensure the correctness and reliability of its functions. These tests verify:
+
+- Correctness of computed coefficients for known datasets.
+- Error handling for invalid inputs (e.g., unequal vector lengths).
+- Edge cases such as constant response values.
+
+To run the tests:
+```R
+devtools::test()
+```

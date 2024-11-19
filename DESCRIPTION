@@ -5,11 +5,14 @@ Version: 0.1.0
 Author: Yilin Yan
 Maintainer: Yilin Yan <yilinyan@umich.edu>
 Description: This package provides a simple implementation of a linear regression model. It includes a function to estimate the slope and intercept of a linear model given a set of predictor and response values. It is designed as an educational tool to help users understand the basics of linear regression modeling in R.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0),
+    bench
 VignetteBuilder: knitr
 RoxygenNote: 7.3.2
+Config/testthat/edition: 3
