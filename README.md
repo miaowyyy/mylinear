@@ -1,4 +1,5 @@
 # **mylinear**
+[![R-CMD-check.yaml](https://github.com/miaowyyy/mylinear/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/miaowyyy/mylinear/actions/workflows/R-CMD-check.yaml)
 
 `mylinear` is an R package that provides a simple yet efficient implementation of a linear regression model. It is designed as a lightweight tool for educational purposes and for users who want to understand the fundamentals of linear regression modeling in R.
 
@@ -52,5 +53,3 @@ To run the tests:
 devtools::test()
 ```
 
-
-[![R-CMD-check.yaml](https://github.com/miaowyyy/mylinear/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/miaowyyy/mylinear/actions/workflows/R-CMD-check.yaml)
