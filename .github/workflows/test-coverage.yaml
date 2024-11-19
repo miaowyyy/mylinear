@@ -22,5 +22,8 @@ jobs:
       - name: Install dependencies
         run: Rscript -e 'install.packages("remotes"); remotes::install_deps(dependencies = TRUE)'
 
+      - name: Install covr
+        run: Rscript -e 'install.packages("covr")'
+
       - name: Run tests and upload coverage report
         run: Rscript -e 'covr::codecov()'
