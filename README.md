@@ -51,3 +51,6 @@ To run the tests:
 ```R
 devtools::test()
 ```
+
+
+[![R-CMD-check.yaml](https://github.com/miaowyyy/mylinear/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/miaowyyy/mylinear/actions/workflows/R-CMD-check.yaml)
